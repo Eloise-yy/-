@@ -139,12 +139,15 @@ const TreeParticles = ({ isAssembled, customColor }: { isAssembled: boolean, cus
     animateMesh(boxRef.current!, boxData);
   });
 
-  // Material with subtle emissive glow for the "slightly glowing" effect
+  // Material with emissive glow for the "slightly glowing" effect
+  // We use the customColor (or a slightly brighter version) as the emissive color
+  // Since we can't easily pass per-instance emissive color without custom shaders in standard material,
+  // we set a base dark green emissive that blends well.
   const particleMaterial = useMemo(() => new THREE.MeshStandardMaterial({
       roughness: 0.4,
       metalness: 0.2,
-      emissive: new THREE.Color("#002211"), 
-      emissiveIntensity: 0.6 // Increased to make it glow visibly
+      emissive: new THREE.Color("#003311"), 
+      emissiveIntensity: 0.4 // Adjust for subtle glow
   }), []);
 
   return (
@@ -318,8 +321,8 @@ const Ornaments = ({ isAssembled }: { isAssembled: boolean }) => {
             roughness={0.1} 
             metalness={0.9} 
             envMapIntensity={2} 
-            emissive="#202020" 
-            emissiveIntensity={0.5} 
+            emissive="#333333" 
+            emissiveIntensity={0.3} 
         />
       </instancedMesh>
       <instancedMesh ref={cubeRef} args={[undefined, undefined, cubes.length]}>
@@ -328,8 +331,8 @@ const Ornaments = ({ isAssembled }: { isAssembled: boolean }) => {
             roughness={0.2} 
             metalness={1.0} 
             envMapIntensity={2} 
-            emissive="#202020" 
-            emissiveIntensity={0.5} 
+            emissive="#333333" 
+            emissiveIntensity={0.3} 
         />
       </instancedMesh>
       <instancedMesh ref={lightRef} args={[undefined, undefined, lights.length]}>
